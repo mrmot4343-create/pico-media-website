@@ -424,7 +424,7 @@ export default function Home() {
       {/* Main Content */}
       <motion.main
         initial={{ opacity: 0 }}
-        animate={introPassed ? { opacity: 1 } : { opacity: 0 }}
+        animate={!introVisible ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
         className="flex flex-col"
       >
@@ -434,7 +434,7 @@ export default function Home() {
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={introPassed ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            animate={!introVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-center space-y-8 max-w-4xl mx-auto"
           >
@@ -442,7 +442,7 @@ export default function Home() {
             <motion.div
               className="relative w-48 h-48 md:w-64 md:h-64 mx-auto"
               initial={{ scale: 0, rotate: -180 }}
-              animate={introPassed ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
+              animate={!introVisible ? { scale: 1, rotate: 0 } : { scale: 0, rotate: -180 }}
               transition={{ duration: 0.8, delay: 0.3, type: 'spring' }}
             >
               <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl animate-pulse" />
@@ -456,7 +456,7 @@ export default function Home() {
             {/* Brand Info */}
             <motion.div
               initial={{ opacity: 0 }}
-              animate={introPassed ? { opacity: 1 } : { opacity: 0 }}
+              animate={!introVisible ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
               className="space-y-4"
             >
@@ -474,7 +474,7 @@ export default function Home() {
             {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={introPassed ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              animate={!introVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, delay: 0.8 }}
               className="flex flex-wrap justify-center gap-6 md:gap-12 pt-8"
             >
