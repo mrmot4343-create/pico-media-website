@@ -323,8 +323,7 @@ const translations = {
 
 export default function Home() {
   const [language, setLanguage] = useState<Language>('ar')
-  const [introPassed, setIntroPassed] = useState(false)
-  const [scrollTriggered, setScrollTriggered] = useState(false)
+  const [introVisible, setIntroVisible] = useState(true)
   const [selectedProject, setSelectedProject] = useState<PortfolioProject | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const { scrollY } = useScroll()
@@ -332,18 +331,13 @@ export default function Home() {
   const { toast } = useToast()
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!scrollTriggered && window.scrollY > 50) {
-        setScrollTriggered(true)
-        setTimeout(() => {
-          setIntroPassed(true)
-        }, 1500)
-      }
-    }
+  const timer = setTimeout(() => {
+    setIntroVisible(false)
+  }, 800)
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [scrollTriggered])
+  return () => clearTimeout(timer)
+}, [])
+
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'ar' ? 'en' : 'ar')
@@ -380,55 +374,40 @@ export default function Home() {
     <div className={`min-h-screen bg-background ${language === 'ar' ? 'rtl' : 'ltr'}`} dir={language === 'ar' ? 'rtl' : 'ltr'}>
       <Toaster />
 
-      {/* Opening Animation */}
-      {!introPassed && (
-        <motion.div
-          initial={{ opacity: 1 }}
-          animate={{ opacity: scrollTriggered ? 0 : 1 }}
-          transition={{ duration: 0.8 }}
-          className="fixed inset-0 z-50 bg-black flex items-center justify-center pointer-events-none"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            className="text-center"
-          >
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary text-glow">
-              {language === 'ar' ? 'Welcome to Pico Media' : 'Welcome to Pico Media'}
-            </h1>
-          </motion.div>
+      {/* Opening Animation – Fast Auto Hide */}
+{introVisible && (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.4 }}
+    className="fixed inset-0 z-50 bg-black flex items-center justify-center pointer-events-none"
+  >
+    <div className="text-center">
+      <h1 className="text-3xl md:text-5xl font-bold text-primary text-glow">
+        Pico Media
+      </h1>
+      <p className="mt-3 text-sm md:text-base text-muted-foreground">
+        {t.tagline}
+      </p>
 
-          {/* Bat Silhouettes */}
-          {scrollTriggered && (
-            <>
-              {[...Array(5)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className={`fixed text-black/40 ${i % 2 === 0 ? 'text-left' : 'text-right'}`}
-                  style={{
-                    left: `${20 + i * 15}%`,
-                    top: '-200px',
-                    animationDelay: `${i * 0.2}s`
-                  }}
-                  initial={{ y: -500, opacity: 0 }}
-                  animate={{ y: window.innerHeight + 500, opacity: 1 }}
-                  transition={{ duration: 1.5, delay: i * 0.15, ease: 'easeIn' }}
-                >
-                  <svg width="120" height="80" viewBox="0 0 120 80" fill="currentColor">
-                    <path d="M60 80C60 80 20 50 10 30C5 20 15 10 25 15C30 18 35 20 40 25C40 25 35 10 45 5C50 2 55 5 58 10C58 10 55 5 60 0C65 5 62 10 62 10C65 5 70 2 75 5C85 10 80 25 80 25C85 20 90 18 95 15C105 10 115 20 110 30C100 50 60 80 60 80Z"/>
-                  </svg>
-                </motion.div>
-              ))}
-            </>
-          )}
-        </motion.div>
-      )}
+      <div
+        onClick={() =>
+          window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
+        }
+        className="mt-10 flex justify-center cursor-pointer animate-bounce pointer-events-auto"
+      >
+        <ArrowUpRight className="rotate-90 text-primary w-8 h-8" />
+      </div>
+    </div>
+  </motion.div>
+)}
+
 
       {/* Language Toggle */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
-        animate={introPassed ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
+        animate={!introVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: -20 }}
         transition={{ duration: 0.6 }}
         className="fixed top-4 right-4 md:top-6 md:right-6 z-40"
       >
