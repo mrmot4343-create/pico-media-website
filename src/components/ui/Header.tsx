@@ -20,31 +20,28 @@ export default function Header() {
         <nav className="flex items-center gap-6 text-sm text-white">
 
           <Link
+            href="/"
+            className="hover:text-yellow-400 transition"
+          >
+            الصفحة الرئيسية
+          </Link>
+
+          <Link
             href="/brand-identity"
             className="hover:text-yellow-400 transition"
           >
             الهوية البصرية
           </Link>
 
-          <Link
-            href="/#services"
-            className="hover:text-yellow-400 transition"
-          >
-            الخدمات
-          </Link>
-
-          <Link
-            href="/#portfolio"
-            className="hover:text-yellow-400 transition"
-          >
-            الأعمال
-          </Link>
-
           {/* Language */}
-          <button className="flex items-center gap-1 rounded border border-yellow-500/40 px-3 py-1 text-yellow-400 hover:bg-yellow-500 hover:text-black transition">
+          <button
+            type="button"
+            className="flex items-center gap-1 rounded border border-yellow-500/40 px-3 py-1 text-yellow-400 hover:bg-yellow-500 hover:text-black transition"
+          >
             <Globe size={14} />
             EN
           </button>
+
         </nav>
       </div>
     </header>
